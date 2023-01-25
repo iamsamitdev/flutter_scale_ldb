@@ -6,11 +6,8 @@ import 'package:flutter_scale/themes/colors.dart';
 class HeadingText extends Text {
   HeadingText(
     String data,
-    {required TextStyle style}
   ):super(
     data,
-    style: style.merge(
-      TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: primary_text)
-    )
+    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: primary_text)
   );
 }

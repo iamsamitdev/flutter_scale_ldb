@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
 import 'package:flutter_scale/screens/bottomnavmenu/home_screen.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_scale/screens/bottomnavmenu/profile_screen.dart';
 import 'package:flutter_scale/screens/bottomnavmenu/report_screen.dart';
 import 'package:flutter_scale/screens/bottomnavmenu/setting_screen.dart';
 import 'package:flutter_scale/themes/colors.dart';
+import 'package:flutter_scale/utils/constant.dart';
 import 'package:flutter_scale/utils/string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,6 +47,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  // สร้างฟังก์ชันสำหรับอ่านข้อมูล profile จาก Shared Preferences
+  String? _fullname, _username, _avatar, _userstatus;
+
+  readUserProfile() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _fullname = sharedPreferences.getString('fullName');
+      _username = sharedPreferences.getString('userName');
+      _avatar = sharedPreferences.getString('imgProfile');
+      _userstatus = sharedPreferences.getString('userStatus');
+    });
+  }
+
+  // เรียกใช้งานตอนเริ่มต้นโหลดหน้าแอพ
+  @override
+  void initState() {
+    readUserProfile();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,13 +79,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Samit Koyom"), 
-              accountEmail: Text("samit@email.com"),
-              currentAccountPicture: CircleAvatar(
+              accountName: Text(_fullname ?? "..."), 
+              accountEmail: Text(_username ?? "..."),
+              currentAccountPicture: _avatar != null ? CircleAvatar(
                 radius: 60.0,
                 backgroundColor: primary_dark,
-                backgroundImage: NetworkImage('https://www.itgenius.co.th/backend/assets/images/user_avatar/2qxyqud0ha7wj4nf6p26xxy0heoyyxkz.jpg'),
-              ),
+                backgroundImage: NetworkImage('${baseImageURL}profile/${_avatar}'),
+              ) : CircularProgressIndicator(),
             ),
             ListTile(
               leading: Icon(Icons.person_outline),
