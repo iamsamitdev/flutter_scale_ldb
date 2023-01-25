@@ -1,8 +1,10 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_scale/provider/CounterProvider.dart';
 import 'package:flutter_scale/routers.dart';
 import 'package:flutter_scale/themes/styles.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var userStep;
@@ -30,11 +32,18 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: appTheme(),
-      initialRoute: initRoute,
-      routes: routes,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CounterProvider()
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: appTheme(),
+        initialRoute: initRoute,
+        routes: routes,
+      ),
     );
   }
 }

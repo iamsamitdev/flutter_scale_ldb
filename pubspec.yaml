@@ -49,6 +49,9 @@ dependencies:
   # สำหรับการเก็บข้อมูลลงแอพ
   shared_preferences: ^2.0.17
 
+  # Provider สำหรับไว้จัดการ state
+  provider: ^6.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
